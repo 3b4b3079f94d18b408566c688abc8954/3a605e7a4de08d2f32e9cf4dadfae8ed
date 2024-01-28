@@ -8,3 +8,12 @@ RewriteRule ^(.*)index\.html$ /$1 [R=301,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^([^/]+)/$ $1.html
+# Prevent direct access to image files
+<FilesMatch "\.(jpg|jpeg|png|gif)$">
+    # Set a specific HTTP_REFERER value or leave it blank to allow access from your website
+    SetEnvIf Referer "^https://www\.talesofcuddles\.com/" referrer_allowed
+    # Allow access only if the referrer matches the allowed value
+    Order deny,allow
+    Deny from all
+    Allow from env=referrer_allowed
+</FilesMatch>
