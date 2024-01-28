@@ -17,3 +17,8 @@ RewriteRule ^([^/]+)/$ $1.html
     Deny from all
     Allow from env=referrer_allowed
 </FilesMatch>
+# Prevent direct access to image files
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?talesofcuddles.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif)$ - [NC,F]
